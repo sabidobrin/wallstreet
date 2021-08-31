@@ -14,4 +14,5 @@ div#title {
 
 input#black-scholes.form-control-plaintext {
     padding: 0.25pc 0.5pc;
+    border-radius: 0.5pc;
 }

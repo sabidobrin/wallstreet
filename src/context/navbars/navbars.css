@@ -26,3 +26,7 @@ img.d-inline-block.align-top {
         box-shadow: 0 0.25pc 0.6pc rgb(0 0 0 / 0.2);
     }
 }
+
+div.dropdown-menu.show {
+    border-radius: 0.5pc;
+}
