@@ -1,3 +1,3 @@
-import Top from "./Top";
+import Top from "./Top.jsx";
 
 export { Top }

@@ -1,6 +1,6 @@
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import './App.css';
-import { Calculator } from './components';
+import { BlackScholes } from './components';
 import { Top } from './context';
 
 export default function App() {
@@ -8,11 +8,11 @@ export default function App() {
         <div className="App">
             <Top />
             <BrowserRouter><Switch>
-            <Route exact path="/calculator"
-                render={props => <Calculator {...props} /> }
+            <Route exact path="/calculators/black-scholes"
+                render={props => <BlackScholes {...props} /> }
             />
 
-            <Route exact path="/"><Redirect to="/calculator"/></Route>
+            <Route exact path="/"><Redirect to="/calculators/black-scholes"/></Route>
             
             </Switch></BrowserRouter>
         </div>

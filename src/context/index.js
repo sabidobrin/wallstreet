@@ -1,3 +1,4 @@
-import { Top } from "./navbars/Top";
+import { Top } from "./navbars";
+import { Submit } from "./buttons";
 
-export { Top }
+export { Top, Submit }

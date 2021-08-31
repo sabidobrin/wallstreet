@@ -1,5 +1,5 @@
 import '../navbars.css';
-import { Container, Nav, Navbar } from 'react-bootstrap';
+import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import money from './money.ico';
 
 export default function Top () {
@@ -15,7 +15,9 @@ export default function Top () {
             <Navbar.Toggle aria-controls='responsive-navbar-nav'/>
             <Navbar.Collapse id='responsive-navbar-nav'>
             <Nav>
-                <Nav.Link href="calculator">Calculator</Nav.Link>
+                <NavDropdown title="Calculators" id="basic-nav-dropdown">
+                    <NavDropdown.Item href="/calculators/black-scholes">Black Scholes Model</NavDropdown.Item>
+                </NavDropdown>
             </Nav>
             </Navbar.Collapse>
         </Container>

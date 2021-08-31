@@ -1,6 +1,14 @@
 nav#navigation-bar.navbar.navbar-expand-md.navbar-light.fixed-left {
-    background-color: #F3E191;
-    color: #172121;
+    background-color: #dff5e2;
+    color: #181014;
+}
+
+span.navbar-brand {
+    padding: 0;
+}
+
+img.d-inline-block.align-top {
+    margin-right: 0.5pc;
 }
 
 /* smaller */

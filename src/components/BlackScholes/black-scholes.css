@@ -1,0 +1,17 @@
+input#black-scholes.form-control {
+    border-radius: 0.5pc;
+}
+
+form#black-scholes {
+    margin-top: 1pc;
+}
+
+div#title {
+    margin: 0.5pc 0;
+    padding: 0 0.5pc;
+    font-size: 1.5pc;
+}
+
+input#black-scholes.form-control-plaintext {
+    padding: 0.25pc 0.5pc;
+}

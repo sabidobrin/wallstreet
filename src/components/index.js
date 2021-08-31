@@ -1,3 +1,3 @@
-import { Calculator } from "./Calculator";
+import { BlackScholes } from "./BlackScholes";
 
-export { Calculator }
+export { BlackScholes }
