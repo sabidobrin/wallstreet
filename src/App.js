@@ -1,11 +1,13 @@
+import { BrowserRouter, Route, Link } from "react-router-dom";
 import './App.css';
 
 export default function App() {
     return (
         <div className="App">
-            <header className="App-header">
-                Heyyoooo
-            </header>
+            <BrowserRouter>
+                
+            
+            </BrowserRouter>
         </div>
     );
 }
