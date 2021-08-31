@@ -4,7 +4,7 @@ export default function App() {
   return (
       <div className="App">
           <header className="App-header">
-              Heyyooo
+              Heyyoooo
           </header>
       </div>
   );
