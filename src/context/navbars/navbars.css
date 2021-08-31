@@ -1,0 +1,20 @@
+nav#navigation-bar.navbar.navbar-expand-md.navbar-light.fixed-left {
+    background-color: #F3E191;
+    color: #172121;
+}
+
+/* smaller */
+@media (max-width: 768px) {
+    nav#navigation-bar.navbar.navbar-expand-md.navbar-light.fixed-left {
+        height: 10vh;
+        box-shadow: 0 0.25pc 0.6pc rgb(0 0 0 / 0.2);
+    }
+}
+
+/* larger */
+@media (min-width: 768px) {
+    nav#navigation-bar.navbar.navbar-expand-md.navbar-light.fixed-left {
+        height: 10vh;
+        box-shadow: 0 0.25pc 0.6pc rgb(0 0 0 / 0.2);
+    }
+}
