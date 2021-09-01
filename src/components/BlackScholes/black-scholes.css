@@ -2,17 +2,27 @@ input#black-scholes.form-control {
     border-radius: 0.5pc;
 }
 
-form#black-scholes {
-    margin-top: 1pc;
-}
-
 div#title {
-    margin: 0.5pc 0;
-    padding: 0 0.5pc;
-    font-size: 1.5pc;
+    margin: 1pc 0;
+    padding: 0 1.5pc;
+    font-size: 1pc;
+    font-weight: bold;
 }
 
-input#black-scholes.form-control-plaintext {
+input#black-scholes.form-control {
     padding: 0.25pc 0.5pc;
+    border-top-left-radius: 0.5pc;
+    border-bottom-left-radius: 0.5pc;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+input#black-scholes-L.form-control {
     border-radius: 0.5pc;
+}
+
+span.input-group-text {
+    border-top-right-radius: 0.5pc;
+    border-bottom-right-radius: 0.5pc;
+    background-color: #dff5e2;
 }

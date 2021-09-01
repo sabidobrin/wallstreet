@@ -1,12 +1,17 @@
 button#submit-button {
     background-color: #dff5e2;
     border-radius: 0.5pc;
-    width: 100%;
     padding: 0.5pc;
-    margin: 0.5pc 0;
+    margin: 1pc 0pc;
+    font-size: 0.75pc;
     box-shadow: 0 0.25pc 0.6pc rgb(0 0 0 / 0.2);
+    font-weight: bold;
 }
 
 button#submit-button:hover {
     box-shadow: 0 0.5pc 0.6pc rgb(0 0 0.2 / 0.4);
+}
+
+div.row#button-row {
+    padding: 0 0.5pc;
 }

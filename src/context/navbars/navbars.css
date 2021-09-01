@@ -3,9 +3,23 @@ nav#navigation-bar.navbar.navbar-expand-md.navbar-light.fixed-left {
     color: #181014;
 }
 
+div#navbar-container.container-fluid {
+    padding: 0 1.5pc;
+}
+
+span#name.navbar-brand {
+    font-size: 1.2pc;
+}
+
 span.navbar-brand {
     padding: 0;
 }
+
+a#basic-nav-dropdown {
+    border-radius: 0.5pc;
+    font-size: 0.75pc;
+}
+
 
 img.d-inline-block.align-top {
     margin-right: 0.5pc;

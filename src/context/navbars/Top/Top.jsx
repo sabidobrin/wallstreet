@@ -7,7 +7,7 @@ export default function Top () {
         <>
         <Navbar id="navigation-bar" collapseOnSelect fixed="left" expand="md">
         <Container fluid id="navbar-container">
-            <Navbar.Brand href="">
+            <Navbar.Brand id="name" href="">
             <img src={money} height="30" className="d-inline-block align-top" alt="logo" />
                 {/*process.env.REACT_APP_APP_NAME}!*/}
                 Wallstreet
