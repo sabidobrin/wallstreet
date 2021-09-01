@@ -30,4 +30,4 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 git add .\
 git commit -m "name"\
 git branch -M main\
-git push -u origin main\
+git push -u origin main
