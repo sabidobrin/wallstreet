@@ -54,11 +54,11 @@ export default function BlackScholes (props: any) {
     d2 = d1 - o(s) * sqrt(t)
     */
     const calculate = () => {
-        let time = calculateTimeToMaturity();
-        let timesq = sqrt(time);
+        let time:number = calculateTimeToMaturity();
+        let timesq:number = sqrt(time);
 
         const normDist = new NormalDistribution(0, 1);
-        let cop:number = 40 + currentUnderlyingPrice + strikePrice;
+        let cop:number = 0;
         return cop;
     }
 
