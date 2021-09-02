@@ -12,60 +12,58 @@ export default function BlackScholes (props: any) {
         responseCode: 0,
         message: ""
     });
+    
     const [currentUnderlyingPrice, setCurrentUnderlyingPrice] = useState(0);
     const [strikePrice, setStrikePrice] = useState(0);
+    const [volatility, setVolatility] = useState(0);
     const [timeToMaturityDays, setTimeToMaturityDays] = useState(0);
     const [ticker, setTicker] = useState('');
 
-    const [marketDays, setMarketDays] = useState(252); // za interest rates je druga cifra, po treba fetchat glede na ticker
+    const [marketDays, setMarketDays] = useState(0); // za interest rates je druga cifra, po treba fetchat glede na ticker
     const [riskFreeInterestRate, setRiskFreeInterestRate] = useState(0);
     const [normalDistribution, setNormalDistribution] = useState(0);
+    const [delta, setDelta] = useState(0);
+
     const [callOptionPrice, setCallOptionPrice] = useState(0);
 
     const fetchMarketDaysInYear = async (ticker: string) => {
-        const url = process.env.REACT_APP_API_BASE_URL_TREASURY + '/v2/accounting/od/avg_interest_rates';
-        const response = await fetch(url, { method: 'get' });
-        setApiResponse(apiResponseHandling(response));
-        if(!response.ok) { /* error handling */ }
-        else {
-            const json = await response.json();
-            const data = json.data;
-            const meta = json.meta;
-        }
+        setMarketDays(252)
+        return marketDays;
     }
 
     const fetchRiskFreeInterestRate = async () => {
-        const url = process.env.REACT_APP_API_BASE_URL_TREASURY + '/v2/accounting/od/avg_interest_rates';
-        const response = await fetch(url, { method: 'get' });
-        setApiResponse(apiResponseHandling(response));
-        if(!response.ok) { /* error handling */ }
-        else {
-            const json = await response.json();
-            const data = json.data;
-            const meta = json.meta;
-        }
+        setRiskFreeInterestRate(0.09);
     }
 
-    const calculateTimeToMaturity = () => { return timeToMaturityDays / marketDays; }
+    const calculateTimeToMaturity = () => {
+        return timeToMaturityDays / marketDays;
+    }
+
+    const calculateNd1 = () => {
+        const normDist = new NormalDistribution(0, 1);
+        let delta:number = 0;
+        setDelta(delta);
+        return delta;
+    }
 
     /*
     C = S(t) * N(d1) - K * e(^-rt) * N(d2), where
     d1 = (ln(S(t)/K) + (r + (o^2(v)/2)) * t) / (o(s) * sqrt(t))
     d2 = d1 - o(s) * sqrt(t)
+    N(d1) = delta, display it
     */
     const calculate = () => {
+        // pomozni racuni
         let time:number = calculateTimeToMaturity();
         let timesq:number = sqrt(time);
+        let delta:number = calculateNd1();
 
-        const normDist = new NormalDistribution(0, 1);
         let cop:number = 0;
         return cop;
     }
-
-    const handleSubmit = (event: any) => {
-        event.preventDefault();
-        let price:number = calculate();
-        setCallOptionPrice(price);
+    
+    const tickerCheck = async (value: string) => {
+        if(value !== "") setTicker(value.toUpperCase());
     }
 
     useEffect(() => {
@@ -74,10 +72,13 @@ export default function BlackScholes (props: any) {
         return function cleanup() { };
     }, []);
 
-    const tickerCheck = async (value: string) => {
-        if(value !== "") setTicker(value.toUpperCase());
+    const handleSubmit = (event: any) => {
+        event.preventDefault();
+        let price:number = calculate();
+        setCallOptionPrice(price);
     }
 
+    console.log(volatility)
     return (
         <Container fluid>
             <Row>
@@ -100,6 +101,14 @@ export default function BlackScholes (props: any) {
                             <Form.Control type="number" placeholder="Time to maturity" min={0}
                                 onChange={e => setTimeToMaturityDays(parseFloat(e.target.value))} />
                             <InputGroup.Text>days</InputGroup.Text>
+                            </InputGroup>
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="black-scholes">
+                            <Form.Label>Volatility</Form.Label>
+                            <InputGroup className="mb-2">
+                            <Form.Control type="number" placeholder="Volatility" step="1"
+                                onBlur={(e:any) => setVolatility(parseFloat(e.target.value)/100)} />
+                            <InputGroup.Text>%</InputGroup.Text>
                             </InputGroup>
                         </Form.Group>
                     </Col>
@@ -133,6 +142,9 @@ export default function BlackScholes (props: any) {
                 </Row>
                 <Row>
                     <div>Call option price: <b>{callOptionPrice}</b> USD</div>
+                </Row>
+                <Row>
+                    <div>Delta: <b>{callOptionPrice}</b></div>
                 </Row>
                 </Card></Col>
             </Row>
