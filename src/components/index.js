@@ -1,3 +1,3 @@
-import { BlackScholes } from "./BlackScholes";
+import { BlackScholesModel } from "./BlackScholesModel";
 
-export { BlackScholes }
+export { BlackScholesModel }

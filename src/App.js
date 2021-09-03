@@ -1,6 +1,6 @@
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import './App.css';
-import { BlackScholes } from './components';
+import { BlackScholesModel } from "./components";
 import { Top } from './context';
 
 export default function App() {
@@ -9,7 +9,7 @@ export default function App() {
             <Top />
             <BrowserRouter><Switch>
             <Route exact path="/calculators/black-scholes"
-                render={props => <BlackScholes {...props} /> }
+                render={props => <BlackScholesModel {...props} /> }
             />
 
             <Route exact path="/"><Redirect to="/calculators/black-scholes"/></Route>

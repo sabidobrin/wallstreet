@@ -46,6 +46,7 @@
     ]
   },
   "devDependencies": {
+    "black-scholes": "^1.1.0",
     "typescript": "^4.4.2"
   }
 }
