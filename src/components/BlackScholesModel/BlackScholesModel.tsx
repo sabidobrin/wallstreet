@@ -103,14 +103,14 @@ export default function BlackScholesModel (props: any) {
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="black-scholes">
                             <Form.Label>Strike price</Form.Label>
-                            <Row>
-                            <Col id="double" xs={12} sm={12} md={6} lg={6}>
+                            {/*<Row>
+                            <Col id="double" xs={12} sm={12} md={6} lg={6}>*/}
                             <InputGroup className="mb-2">
                             <Form.Control type="number" step="0.01" min="0" placeholder="From"
                                 onBlur={(e:any) => setStrikePrice(parseFloat(e.target.value))} />
                             <InputGroup.Text>USD</InputGroup.Text>
                             </InputGroup>
-                            </Col>
+                            {/*</Col>
                             <Col id="double" xs={12} sm={12} md={6} lg={6}>
                             <InputGroup className="mb-2">
                             <Form.Control type="number" step="0.01" min="0" placeholder="To"
@@ -118,7 +118,7 @@ export default function BlackScholesModel (props: any) {
                             <InputGroup.Text>USD</InputGroup.Text>
                             </InputGroup>
                             </Col>
-                            </Row>
+                            </Row>*/}
                         </Form.Group>
                     </Col>
                     <Col xs={12} sm={12} md={6} lg={6}>
