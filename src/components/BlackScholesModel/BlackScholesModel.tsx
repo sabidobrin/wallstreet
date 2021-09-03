@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import NormalDistribution from 'normal-distribution';
 import { log, sqrt, exp, pi } from 'mathjs';
 import './black-scholes-model.css';
 import { Container, Row, Col, Card, Form, InputGroup } from 'react-bootstrap';
@@ -26,7 +25,7 @@ export default function BlackScholesModel (props: any) {
     const [riskFreeInterestRate, setRiskFreeInterestRate] = useState(0);
     const fetchRiskFreeInterestRate = async () => setRiskFreeInterestRate(0.09);
 
-    const [delta, setDelta] = useState(17);
+    const [delta, setDelta] = useState(0);
     const [callOptionPrice, setCallOptionPrice] = useState(0);
     const [putOptionPrice, setPutOptionPrice] = useState(0);
 
@@ -84,7 +83,7 @@ export default function BlackScholesModel (props: any) {
                 <div id="title">Black Scholes Model</div>
             </Row>            
             <Row>
-                <Col xs={12} sm={12} md={6} lg={6}><Card>
+                <Col xs={12} sm={12} md={7} lg={7}><Card>
                 <Form id="black-scholes" onSubmit={handleSubmit}>
                 <Row>
                     <Row><div style={{ paddingBottom: '0.5pc' }}><b>Calculator</b></div></Row>
@@ -97,34 +96,37 @@ export default function BlackScholesModel (props: any) {
                         <Form.Group className="mb-3" controlId="black-scholes">
                             <Form.Label>Current underlying price</Form.Label>
                             <InputGroup className="mb-2">
-                            <Form.Control type="number" step="0.0001" min="0" placeholder="Current underlying price"
+                            <Form.Control type="number" step="0.01" min="0" placeholder="Current underlying price"
                                 onBlur={(e:any) => setCurrentUnderlyingPrice(parseFloat(e.target.value))} />
                             <InputGroup.Text>USD</InputGroup.Text>
                             </InputGroup>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="black-scholes">
                             <Form.Label>Strike price</Form.Label>
+                            <Row>
+                            <Col id="double" xs={12} sm={12} md={6} lg={6}>
                             <InputGroup className="mb-2">
-                            <Form.Control type="number" step="0.0001" min="0" placeholder="Strike price"
+                            <Form.Control type="number" step="0.01" min="0" placeholder="From"
                                 onBlur={(e:any) => setStrikePrice(parseFloat(e.target.value))} />
                             <InputGroup.Text>USD</InputGroup.Text>
                             </InputGroup>
-                        </Form.Group>   
+                            </Col>
+                            <Col id="double" xs={12} sm={12} md={6} lg={6}>
+                            <InputGroup className="mb-2">
+                            <Form.Control type="number" step="0.01" min="0" placeholder="To"
+                                onBlur={(e:any) => setStrikePrice(parseFloat(e.target.value))} />
+                            <InputGroup.Text>USD</InputGroup.Text>
+                            </InputGroup>
+                            </Col>
+                            </Row>
+                        </Form.Group>
                     </Col>
                     <Col xs={12} sm={12} md={6} lg={6}>
                         <Form.Group className="mb-3" controlId="black-scholes-L">
                             <Form.Label>Flag</Form.Label>
                             <Form.Control type="text" placeholder="C/P"
                                 onBlur={(e:any) => flagCheck(e.target.value.toLowerCase())} />
-                        </Form.Group>
-                        <Form.Group className="mb-3" controlId="black-scholes">
-                            <Form.Label>Time to maturity</Form.Label>
-                            <InputGroup className="mb-2">
-                            <Form.Control type="number" placeholder="Time to maturity" min={0}
-                                onBlur={(e:any) => setTimeToMaturity(parseFloat(e.target.value)/marketDays)} />
-                            <InputGroup.Text>days</InputGroup.Text>
-                            </InputGroup>
-                        </Form.Group>
+                        </Form.Group>                        
                         <Form.Group className="mb-3" controlId="black-scholes">
                             <Form.Label>Volatility</Form.Label>
                             <InputGroup className="mb-2">
@@ -133,23 +135,27 @@ export default function BlackScholesModel (props: any) {
                             <InputGroup.Text>%</InputGroup.Text>
                             </InputGroup>
                         </Form.Group>
+                        <Form.Group className="mb-3" controlId="black-scholes-L">
+                            <Form.Label>Expiration dates</Form.Label>
+                            <InputGroup className="mb-2">
+                            <Form.Control type="date" placeholder="To"
+                                onBlur={(e:any) => setTimeToMaturity(parseFloat(e.target.value)/marketDays)} />
+                            </InputGroup>
+                        </Form.Group>
                     </Col>
                 </Row>
                 <Row id="button-row"><Submit /></Row>
                 </Form></Card>
                 </Col>
                 
-                <Col xs={12} sm={12} md={6} lg={6}><Card>
+                <Col xs={12} sm={12} md={5} lg={5}><Card>
                 <Row><div style={{ paddingBottom: '0.5pc' }}><b>Results</b></div></Row>
-                <Row>
-                    <div>Ticker: <b>{ticker}</b></div>
-                </Row>
+                <Row><div>Ticker: <b>{ticker}</b></div></Row>
                 <Row>
                     <div>{flag === '' ? 'Call/Put' : flag.charAt(0).toUpperCase() + flag.slice(1)} option price: <b>{flag === 'call' ? callOptionPrice : putOptionPrice}</b> USD</div>
                 </Row>
-                <Row>
-                    <div>Delta: <b>{delta}</b></div>
-                </Row>
+                <Row><div>{flag === '' ? 'Call/Put': flag.charAt(0).toUpperCase() + flag.slice(1)} delta: <b>{flag === 'call' ? delta : delta-1}</b></div></Row>
+                <Row></Row>
                 </Card></Col>
             </Row>
         </Container>

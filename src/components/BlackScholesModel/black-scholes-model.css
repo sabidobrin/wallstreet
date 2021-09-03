@@ -25,4 +25,13 @@ span.input-group-text {
     border-top-right-radius: 0.5pc;
     border-bottom-right-radius: 0.5pc;
     background-color: #dff5e2;
+    padding: 0.25pc 0.25pc;
+}
+
+div#double.col-lg-6.col-md-6.col-sm-12.col-12:first-of-type {
+    padding-left: 0 !important;
+}
+
+div#double.col-lg-6.col-md-6.col-sm-12.col-12:last-of-type {
+    padding-right: 0 !important;
 }
