@@ -1,5 +1,5 @@
 import { Top } from "./navbars";
 import { Submit } from "./buttons";
-import { TableElement } from "./tables";
+import { TableElement, CallPutPrices } from "./tables";
 
-export { Top, Submit, TableElement }
+export { Top, Submit, TableElement, CallPutPrices }
