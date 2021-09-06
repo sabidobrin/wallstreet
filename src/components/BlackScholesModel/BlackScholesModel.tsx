@@ -146,7 +146,7 @@ export default function BlackScholesModel (props: any) {
                         <Form.Group className="mb-3" controlId="black-scholes">
                             <Form.Label>Volatility</Form.Label>
                             <InputGroup className="mb-2">
-                            <Form.Control type="number" placeholder="Volatility" step="1"
+                            <Form.Control type="number" placeholder="Volatility" step="0.01"
                                 onBlur={(e:any) => setVolatility(parseFloat(e.target.value)/100)} />
                             <InputGroup.Text>%</InputGroup.Text>
                             </InputGroup>
