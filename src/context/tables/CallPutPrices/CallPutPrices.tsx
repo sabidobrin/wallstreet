@@ -24,8 +24,10 @@ export default function CallPutPrices (props: any) {
     const calculateOptionPrices = async () => {
         var bs = require("black-scholes");
         let arrCallOptionPrices:number[][] = []; let arrPutOptionPrices:number[][] = [];
+        let callDeltas:number[][] = []; let putDeltas:number[][] = [];
         for(let i=0; i<props.datesOfMarketYear.length; i++) {
             arrCallOptionPrices[i] = []; arrPutOptionPrices[i] = [];
+            callDeltas[i] = []; putDeltas[i] = [];
             for(let j=0; j<props.strikePrices.length; j++) {
                 let s = props.currentUnderlying;
                 let k = props.strikePrices[j];
@@ -45,6 +47,8 @@ export default function CallPutPrices (props: any) {
         }
         setCallOptionPrices(arrCallOptionPrices);
         setPutOptionPrices(arrPutOptionPrices);
+        setCallDeltas(callDeltas);
+        setPutDeltas(putDeltas);
     }
 
     function getD1(s: number, k: number, t: number, v: number, r: number) {
