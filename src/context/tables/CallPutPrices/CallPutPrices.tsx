@@ -21,37 +21,38 @@ export default function CallPutPrices (props: any) {
         N(d1) = delta, display it
     */
 
-    function normDist (d: number) : number { return (1.0/(sqrt(2*pi))) * exp(-0.5*d); }
-    const calculateDeltas = async () => {
-        let callDeltas:number[][] = []; let putDeltas:number[][] = [];
-        for(let i=0; i<props.datesOfMarketYear.length; i++) {
-            callDeltas[i] = []; putDeltas[i] = [];
-            for(let j=0; j<props.strikePrices.length; j++) {
-                let d1:any = (log(props.currentUnderlying / props.strikePrices[j]) + (props.riskFreeInterestRate + props.volatility * props.volatility / 2) * props.datesOfMarketYear[i]) / (props.volatility * sqrt(props.datesOfMarketYear[i]));
-                d1 = Math.round((normDist(d1) + Number.EPSILON) * 1000) / 1000;
-                callDeltas[i][j] = d1;
-                putDeltas[i][j] = Math.round(((d1-1) + Number.EPSILON) * 1000) / 1000;
-            }
-        }
-        setCallDeltas(callDeltas);
-        setPutDeltas(putDeltas);
-        //let d2 = d1 - volatility * sqrt(timeToMaturity);
-    }    
-
     const calculateOptionPrices = async () => {
         var bs = require("black-scholes");
         let arrCallOptionPrices:number[][] = []; let arrPutOptionPrices:number[][] = [];
         for(let i=0; i<props.datesOfMarketYear.length; i++) {
             arrCallOptionPrices[i] = []; arrPutOptionPrices[i] = [];
             for(let j=0; j<props.strikePrices.length; j++) {
-                let callOptionPrice:number = bs.blackScholes(props.currentUnderlying, props.strikePrices[j], props.datesOfMarketYear[i], props.volatility, props.riskFreeInterestRate, 'call').toFixed(3);
-                let putOptionPrice:number = bs.blackScholes(props.currentUnderlying, props.strikePrices[j], props.datesOfMarketYear[i], props.volatility, props.riskFreeInterestRate, 'put').toFixed(3);
-                arrCallOptionPrices[i][j] = callOptionPrice;
-                arrPutOptionPrices[i][j] = putOptionPrice;
+                let s = props.currentUnderlying;
+                let k = props.strikePrices[j];
+                let t = props.datesOfMarketYear[i];
+                let v = props.volatility;
+                let r = props.riskFreeInterestRate;
+                let d1 = getD1(s, k, t, v, r);
+                let d2 = getD2(d1, t, v);
+                let delta = bs.stdNormCDF(d1);
+                let callPrice = s * delta - k * Math.pow(Math.E, -1 * r * t) * bs.stdNormCDF(d2);
+                let putPrice = k * Math.pow(Math.E, -1 * r * t) * bs.stdNormCDF(-d2) - s * bs.stdNormCDF(-d1);
+                arrCallOptionPrices[i][j] = callPrice;
+                arrPutOptionPrices[i][j] = putPrice;
+                callDeltas[i][j] = delta;
+                putDeltas[i][j] = Math.round(((delta-1) + Number.EPSILON) * 1000) / 1000;
             }
         }
         setCallOptionPrices(arrCallOptionPrices);
         setPutOptionPrices(arrPutOptionPrices);
+    }
+
+    function getD1(s: number, k: number, t: number, v: number, r: number) {
+        return  (r * t + Math.pow(v, 2) * t / 2 - Math.log(k / s)) / (v * Math.sqrt(t));
+    }
+
+    function getD2(d1: number, t: number, v: number) {
+        return d1 - v * Math.sqrt(t);
     }
 
     async function merge () {
@@ -76,7 +77,6 @@ export default function CallPutPrices (props: any) {
 
     useEffect(() => {
         calculateOptionPrices();
-        calculateDeltas();
         merge();
     }, [props.dates]);
 

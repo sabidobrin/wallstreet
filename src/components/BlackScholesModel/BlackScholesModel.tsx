@@ -23,14 +23,14 @@ export default function BlackScholesModel (props: any) {
     const [timeToMaturity, setTimeToMaturity] = useState(0);
 
     const [marketDays, setMarketDays] = useState(0)
-    const fetchMarketDaysInYear = async (ticker: string) => setMarketDays(252);
+    const fetchMarketDaysInYear = async (ticker: string) => setMarketDays(365);
 
     const [dateList, setDateList] = useState<string[]>([]);
     const [dateListDates, setDateListDates] = useState<Date[]>([]);
     const [datesOfMarketYear, setDatesOfDatesMarketYear] = useState<number[]>([]);
 
     const [riskFreeInterestRate, setRiskFreeInterestRate] = useState(0);
-    const fetchRiskFreeInterestRate = async () => setRiskFreeInterestRate(0.09);
+    const fetchRiskFreeInterestRate = async () => setRiskFreeInterestRate(0.0009);
     
     const tickerCheck = async (value: string) => {
         if(value !== "") setTicker(value.toUpperCase());
