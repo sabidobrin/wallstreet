@@ -1,7 +1,6 @@
 import { forwardRef } from 'react';
 import './tables.css';
 import MaterialTable from "material-table";
-
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import Check from '@material-ui/icons/Check';
@@ -48,7 +47,7 @@ export default function TableElement (props) {
             title={props.title}
             options={{ search: false }}
             parentChildData={(row, rows) =>
-                rows.find(a => a.expirationDate === row.expirationDate)
+                rows.find(a => a.dates === row.dates)
             }
         />
         </div>);

@@ -49,6 +49,8 @@ export default function CallPutPrices (props: any) {
         setPutOptionPrices(arrPutOptionPrices);
         setCallDeltas(callDeltas);
         setPutDeltas(putDeltas);
+        return merge(props.dates, props.datesOfMarketYear, props.strikePrices,
+            arrCallOptionPrices, arrPutOptionPrices, callDeltas, putDeltas);
     }
 
     function getD1(s: number, k: number, t: number, v: number, r: number) {
@@ -59,39 +61,49 @@ export default function CallPutPrices (props: any) {
         return d1 - v * Math.sqrt(t);
     }
 
-    async function merge () {
+    async function merge (dates: any, datesOfMarketYear: any, strikePrices: any,
+        arrCallOptionPrices: any, arrPutOptionPrices: any, callDeltas: any, putDeltas: any) {
         let arr:any = [];
         for(let i=0; i<props.dates.length; i++) {
             arr[i] = ({ ...arr[i],
                 "_id": i,
-                "date": props.dates[i],
-                "timeInMarketYears": props.datesOfMarketYear[i],
-                "strikePrices": props.strikePrices,
-                "callPrices": callOptionPrices[i],
+                "date": dates[i],
+                "timeInMarketYears": datesOfMarketYear[i],
+                "strikePrices": strikePrices,
+                "callPrices": arrCallOptionPrices[i],
                 "callDeltas": callDeltas[i],
-                "putPrices": putOptionPrices[i],
+                "putPrices": arrPutOptionPrices[i],
                 "putDeltas": putDeltas[i]
             });
         }
-        console.log(arr);
         setTableData(arr);
     }
 
-    const columns = [{ }];
-
     useEffect(() => {
         calculateOptionPrices();
-        merge();
     }, [props.dates]);
 
     useEffect(() => {
         return function cleanup() { };
     }, []);
+    
+    const columns = [{
+        field: 'strikePrices',
+        title: 'Strike prices'
+    }, {
+        field: 'callPrices',
+        title: 'Call Prices',
+    }, {
+        field: 'callDeltas',
+        title: 'Call Deltas'
+    }, {
+        field: 'putPrices',
+        title: 'Put Prices'
+    }, {
+        field: 'putDeltas',
+        title: 'Put deltas'
+    }];
 
-    return (
-        <TableElement
-            columns={columns}
-            data={props.data}
-            title={props.title}
-        />);
+    console.log(tableData);
+    return <TableElement columns={columns} data={tableData[0]} title={props.title} />
 }

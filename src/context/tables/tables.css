@@ -6,7 +6,8 @@ h6.MuiTypography-root, input.MuiInputBase-input, td.MuiTableCell-root,
     span.MuiTypography-root.MuiTypography-caption,
     div.MuiSelect-root.MuiSelect-select.MuiTablePagination-select.MuiSelect-selectMenu.MuiInputBase-input,
     li.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.MuiTablePagination-menuItem.MuiMenuItem-gutters.MuiListItem-gutters.MuiListItem-button,
-    div.MuiPaper-root.MuiMenu-paper.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded {
+    div.MuiPaper-root.MuiMenu-paper.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded,
+    span.MuiButtonBase-root.MuiTableSortLabel-root {
     font-size: 0.75pc;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
@@ -22,6 +23,8 @@ div.MuiPaper-root.MuiMenu-paper.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-ro
 
 th.MuiTableCell-root.MuiTableCell-head.MTableHeader-header-13.MuiTableCell-alignLeft {
     padding: 0;
+    text-align: center;
+    font-weight: bold;
 }
 
 div.MuiToolbar-root.MuiToolbar-regular.MTableToolbar-root-5.MuiToolbar-gutters {

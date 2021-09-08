@@ -42,14 +42,20 @@ export default function BlackScholesModel (props: any) {
     }
 
     const makeStrikePricesArray = (step: number) => {
-        setStrikePriceStep(step);
         if(strikePriceFrom !== 0 && strikePriceTo !== 0) {
             let arr = [];
-            let element = strikePriceFrom;
-            while (element <= strikePriceTo) {
-                element = Math.round((element + Number.EPSILON) * 100) / 100;
-                arr.push(element);
-                element += step;
+            if(strikePriceFrom === strikePriceTo) {
+                setStrikePriceStep(0);
+                arr.push(strikePriceFrom);
+            }
+            else {
+                setStrikePriceStep(step);
+                let element = strikePriceFrom;
+                while (element <= strikePriceTo) {
+                    element = Math.round((element + Number.EPSILON) * 100) / 100;
+                    arr.push(element);
+                    element += step;
+                }
             }
             setStrikePricesArray(arr);
         }
@@ -71,7 +77,7 @@ export default function BlackScholesModel (props: any) {
         return <div id={`date-${index}`} className="dates">{date.slice(8,10)}/{date.slice(5,7)}/{date.slice(0,4)} <CloseOutlined id="icon-delete" onClick={()=> deleteDateFromList(index)} /></div>;
     }
 
-    const makeDatesOfMarketYearArray = () => {
+    const makeDatesOfMarketYearArray = async () => {
         let arrYear = []; let arrDates = [];
         let today = new Date();
         for(let i=0; i<dateList.length; i++) {
@@ -100,10 +106,9 @@ export default function BlackScholesModel (props: any) {
         return function cleanup() { };
     }, []);
 
-    const handleSubmit = (event: any) => {
+    const handleSubmit = async (event: any) => {
         event.preventDefault();
         makeDatesOfMarketYearArray();
-        //calculateOptionPrice();
     }
 
     return (
@@ -174,7 +179,7 @@ export default function BlackScholesModel (props: any) {
                             <Col id="triple" xs={12} sm={12} md={4} lg={4}>
                             <InputGroup className="mb-2">
                             <Form.Control type="number" step="0.01" min="0" placeholder="Step" id="black-scholes-L"
-                                onBlur={(e:any) => makeStrikePricesArray(parseFloat(e.target.value))} />
+                                onBlur={(e:any) => e.target.value === "0" ? e.preventDefault() : makeStrikePricesArray(parseFloat(e.target.value))} />
                             </InputGroup>
                             </Col>
                             </Row>
