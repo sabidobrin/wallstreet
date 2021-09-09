@@ -1,3 +1,3 @@
-import BlackScholesModel from './BlackScholesModel.tsx';
+import BlackScholesModel from './BlackScholesModel';
 
 export { BlackScholesModel }

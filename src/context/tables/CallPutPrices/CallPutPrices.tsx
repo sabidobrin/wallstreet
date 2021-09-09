@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
-import { log, sqrt, exp, pi, string, typeOf, number } from 'mathjs';
 import TableElement from '../TableElement';
-import '../tables.css';
 
 export default function CallPutPrices (props: any) {
 
@@ -76,6 +74,7 @@ export default function CallPutPrices (props: any) {
                 "putDeltas": putDeltas[i]
             });
         }
+        console.log(arr);
         setTableData(arr);
     }
 
@@ -88,22 +87,21 @@ export default function CallPutPrices (props: any) {
     }, []);
     
     const columns = [{
-        field: 'strikePrices',
-        title: 'Strike prices'
+        Header: 'Strike prices',
+        accessor: 'strikePrices'
     }, {
-        field: 'callPrices',
-        title: 'Call Prices',
+        Header: 'Call Prices',
+        accessor: 'callPrices'
     }, {
-        field: 'callDeltas',
-        title: 'Call Deltas'
+        Header: 'Call Deltas',
+        accessor: 'callDeltas'
     }, {
-        field: 'putPrices',
-        title: 'Put Prices'
+        Header: 'Put Prices',
+        accessor: 'putPrices'
     }, {
-        field: 'putDeltas',
-        title: 'Put deltas'
+        Header: 'Put deltas',
+        accessor: 'putDeltas'
     }];
 
-    console.log(tableData);
-    return <TableElement columns={columns} data={tableData[0]} title={props.title} />
+    return <TableElement columns={columns} data={tableData} />
 }

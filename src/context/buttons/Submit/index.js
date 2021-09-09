@@ -1,3 +1,3 @@
-import Submit from "./Submit.tsx";
+import Submit from "./Submit";
 
 export { Submit }

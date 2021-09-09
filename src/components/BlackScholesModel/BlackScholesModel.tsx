@@ -61,6 +61,42 @@ export default function BlackScholesModel (props: any) {
         }
     }
 
+    const updateStrikePriceFrom = (price: number) => {
+        setStrikePriceFrom(price);
+        let arr = [];
+        if(strikePriceTo === price) {
+            setStrikePriceStep(0);
+                arr.push(price);
+        }
+        else if (strikePriceTo !== 0 && strikePriceStep !== 0) {
+            let element = price;
+                while (element <= strikePriceTo) {
+                    element = Math.round((element + Number.EPSILON) * 100) / 100;
+                    arr.push(element);
+                    element += strikePriceStep;
+                }
+        }
+        setStrikePricesArray(arr);
+    }
+
+    const updateStrikePriceTo = (price: number) => {
+        setStrikePriceTo(price);
+        let arr = [];
+        if(strikePriceFrom === price) {
+            setStrikePriceStep(0);
+                arr.push(strikePriceFrom);
+        }
+        else if (strikePriceFrom !== 0 && strikePriceStep !== 0) {
+            let element = strikePriceFrom;
+                while (element <= price) {
+                    element = Math.round((element + Number.EPSILON) * 100) / 100;
+                    arr.push(element);
+                    element += strikePriceStep;
+                }
+        }
+        setStrikePricesArray(arr);
+    }
+
     const addDateToList = (value: string) => {
         let isInList:boolean = false;
         for(let i=0; i<dateList.length; i++) {
@@ -165,14 +201,14 @@ export default function BlackScholesModel (props: any) {
                             <Col id="triple" xs={12} sm={12} md={4} lg={4}>
                             <InputGroup className="mb-2">
                             <Form.Control type="number" step="0.01" min="0" placeholder="From"
-                                onBlur={(e:any) => setStrikePriceFrom(parseFloat(e.target.value))} />
+                                onBlur={(e:any) => updateStrikePriceFrom(parseFloat(e.target.value))} />
                             <InputGroup.Text>$</InputGroup.Text>
                             </InputGroup>
                             </Col>
                             <Col id="triple" xs={12} sm={12} md={4} lg={4}>
                             <InputGroup className="mb-2">
                             <Form.Control type="number" step="0.01" min="0" placeholder="To"
-                                onBlur={(e:any) => setStrikePriceTo(parseFloat(e.target.value))} />
+                                onBlur={(e:any) => updateStrikePriceTo(parseFloat(e.target.value))} />
                             <InputGroup.Text>$</InputGroup.Text>
                             </InputGroup>
                             </Col>
@@ -203,7 +239,7 @@ export default function BlackScholesModel (props: any) {
                 </Col>
                 
                 <Col xs={12} sm={12} md={6} lg={6}><Card>
-                <Row><div style={{ paddingBottom: '0.5pc' }}><b>Results</b></div></Row>
+                <Row><div style={{ paddingBottom: '0.5pc' }}><b>{ticker === '' ? "Results" : "Results: " + ticker}</b></div></Row>
                 <Row>{mapDates()}</Row>
                 </Card></Col>
             </Row>
