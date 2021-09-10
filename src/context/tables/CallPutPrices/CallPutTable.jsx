@@ -12,8 +12,7 @@ export default function CallPutTable (props) {
                 NoDataComponent={() => <span/>}
                 //SubComponent={row => { return <span>{JSON.stringify(row)}</span>}}
                 SubComponent={row => {
-                    console.log([].concat(props.subData[row.index]))
-                    return <ReactTable columns={props.subColumns} data={[].concat(props.subData)}
+                    return <ReactTable columns={props.subColumns} data={props.subData}
                         sortable={false} filterable={false} showPagination={false} minRows={0}
                         NoDataComponent={() => <span/>}
                     />}}

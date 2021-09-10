@@ -7,8 +7,8 @@ export default function CallPutPrices (props: any) {
     const [callDeltas, setCallDeltas] = useState<number[][]>([]);
     const [putOptionPrices, setPutOptionPrices] = useState<number[][]>([]);
     const [putDeltas, setPutDeltas] = useState<number[][]>([]);
-    const [tableData, setTableData] = useState<any[]>([]);
-    const [subTableData, setSubTableData] = useState<any[]>([]);
+    const [dates, setDates] = useState<any[]>([]);
+    const [prices, setPrices] = useState<any[]>([]);
 
     /* blackScholes(s, k, t, v, r, callPut)
         s - Current price of the underlying
@@ -24,6 +24,7 @@ export default function CallPutPrices (props: any) {
         var bs = require("black-scholes");
         let arrCallOptionPrices:number[][] = []; let arrPutOptionPrices:number[][] = [];
         let callDeltas:number[][] = []; let putDeltas:number[][] = [];
+        let pricesArr:any = [];
         for(let i=0; i<props.datesOfMarketYear.length; i++) {
             arrCallOptionPrices[i] = []; arrPutOptionPrices[i] = [];
             callDeltas[i] = []; putDeltas[i] = [];
@@ -43,13 +44,13 @@ export default function CallPutPrices (props: any) {
                 callDeltas[i][j] = delta;
                 putDeltas[i][j] = Math.round(((delta-1) + Number.EPSILON) * 1000) / 1000;
             }
+            pricesArr = mergePrices(props.strikePrices, arrCallOptionPrices[i], arrPutOptionPrices[i], callDeltas[i], putDeltas[i])
         }
         setCallOptionPrices(arrCallOptionPrices);
         setPutOptionPrices(arrPutOptionPrices);
         setCallDeltas(callDeltas);
         setPutDeltas(putDeltas);
-        return merge(props.dates, props.datesOfMarketYear, props.strikePrices,
-            arrCallOptionPrices, arrPutOptionPrices, callDeltas, putDeltas);
+        mergeDates()
     }
 
     function getD1(s: number, k: number, t: number, v: number, r: number) {
@@ -60,26 +61,11 @@ export default function CallPutPrices (props: any) {
         return d1 - v * Math.sqrt(t);
     }
 
-    async function merge (dates: any, datesOfMarketYear: any, strikePrices: any,
-        arrCallOptionPrices: any, arrPutOptionPrices: any, callDeltas: any, putDeltas: any) {
-        
-        let prices:any = [];
-        for(let i=0; i<strikePrices.length; i++) {
-            prices[i] = ({
-                "strikePrice": strikePrices[i],
-                "callPrice": arrCallOptionPrices[i],
-                "callDelta": callDeltas[i],
-                "putPrice": arrPutOptionPrices[i],
-                "putDelta": putDeltas[i]
-            });
-        }
-        //console.log(prices);
-        setSubTableData(prices);
-
-        let arr:any = [];
-        for(let i=0; i<dates.length; i++) {
+    function mergeDates () {
+        let datesArr:any = [];
+        for(let i=0; i<props.datesOfMarketYear.length; i++) {
             let month = '';
-            let m = JSON.stringify(dates[i]).substring(1).slice(5,7);
+            let m = JSON.stringify(props.dates[i]).substring(1).slice(5,7);
             if(m === '01') month = 'JAN';
             if(m === '02') month = 'FEB';
             if(m === '03') month = 'MAR';
@@ -92,19 +78,36 @@ export default function CallPutPrices (props: any) {
             if(m === '10') month = 'OCT';
             if(m === '11') month = 'NOV';
             if(m === '12') month = 'DEC';
-
-            let str = JSON.stringify(dates[i]).substring(1).slice(8,10);
+    
+            let str = JSON.stringify(props.dates[i]).substring(1).slice(8,10);
             str += ' ' + month + ' ';
-            str += JSON.stringify(dates[i]).substring(1).slice(0,4);
-            arr[i] = ({ ...arr[i],
+            str += JSON.stringify(props.dates[i]).substring(1).slice(0,4);
+
+            datesArr[i] = ({
                 "_id": i,
-                "date": dates[i],
+                "date": props.dates[i],
                 "dateFormat": str,
-                "timeInMarketYears": datesOfMarketYear[i],
-                //"prices": sub[i]
+                "timeInMarketYears": props.datesOfMarketYear[i],
             });
         }
-        setTableData(arr);
+        setDates(datesArr);
+    }
+
+    function mergePrices (strikePrices: any, arrCallOptionPrices: any,
+            arrPutOptionPrices: any, callDeltas: any, putDeltas: any) {
+
+        let pricesArr:any = [];
+        for(let i=0; i<strikePrices.length; i++) {
+            pricesArr[i] = ({
+                "strikePrice": strikePrices[i],
+                "callPrice": arrCallOptionPrices[i],
+                "callDelta": callDeltas[i],
+                "putPrice": arrPutOptionPrices[i],
+                "putDelta": putDeltas[i]
+            })
+        }
+        setPrices(pricesArr);
+        return pricesArr;
     }
 
     useEffect(() => {
@@ -168,5 +171,5 @@ export default function CallPutPrices (props: any) {
         }]
     }];
 
-    return <CallPutTable columns={columns} subColumns={subColumns} data={tableData} subData={subTableData} />
+    return <CallPutTable columns={columns} subColumns={subColumns} data={dates} subData={prices} />
 }
