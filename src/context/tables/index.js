@@ -1,4 +1,3 @@
-import TableElement from "./TableElement";
-import { CallPutPrices } from "./CallPutPrices";
+import { CallPutPrices, CallPutTable } from "./CallPutPrices";
 
-export { TableElement, CallPutPrices }
+export { CallPutPrices, CallPutTable }

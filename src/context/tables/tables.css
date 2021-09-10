@@ -30,3 +30,17 @@ th.MuiTableCell-root.MuiTableCell-head.MTableHeader-header-13.MuiTableCell-align
 div.MuiToolbar-root.MuiToolbar-regular.MTableToolbar-root-5.MuiToolbar-gutters {
     padding: 0 1pc;
 }
+
+div.ReactTable.-highlight {
+    padding: 0 0.5pc;
+    padding-bottom: 0.5pc;
+}
+
+div.rt-expander {
+    margin: 0;
+}
+
+/*div.rt-td {
+    background-color: #dff5e2;
+}*/
+

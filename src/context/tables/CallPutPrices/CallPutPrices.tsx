@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import TableElement from '../TableElement';
+import CallPutTable from './CallPutTable';
 
 export default function CallPutPrices (props: any) {
 
@@ -8,6 +8,7 @@ export default function CallPutPrices (props: any) {
     const [putOptionPrices, setPutOptionPrices] = useState<number[][]>([]);
     const [putDeltas, setPutDeltas] = useState<number[][]>([]);
     const [tableData, setTableData] = useState<any[]>([]);
+    const [subTableData, setSubTableData] = useState<any[]>([]);
 
     /* blackScholes(s, k, t, v, r, callPut)
         s - Current price of the underlying
@@ -61,47 +62,111 @@ export default function CallPutPrices (props: any) {
 
     async function merge (dates: any, datesOfMarketYear: any, strikePrices: any,
         arrCallOptionPrices: any, arrPutOptionPrices: any, callDeltas: any, putDeltas: any) {
+        
+        let prices:any = [];
+        for(let i=0; i<strikePrices.length; i++) {
+            prices[i] = ({
+                "strikePrice": strikePrices[i],
+                "callPrice": arrCallOptionPrices[i],
+                "callDelta": callDeltas[i],
+                "putPrice": arrPutOptionPrices[i],
+                "putDelta": putDeltas[i]
+            });
+        }
+        //console.log(prices);
+        setSubTableData(prices);
+
         let arr:any = [];
-        for(let i=0; i<props.dates.length; i++) {
+        for(let i=0; i<dates.length; i++) {
+            let month = '';
+            let m = JSON.stringify(dates[i]).substring(1).slice(5,7);
+            if(m === '01') month = 'JAN';
+            if(m === '02') month = 'FEB';
+            if(m === '03') month = 'MAR';
+            if(m === '04') month = 'APR';
+            if(m === '05') month = 'MAY';
+            if(m === '06') month = 'JUN';
+            if(m === '07') month = 'JUL';
+            if(m === '08') month = 'AUG';
+            if(m === '09') month = 'SEP';
+            if(m === '10') month = 'OCT';
+            if(m === '11') month = 'NOV';
+            if(m === '12') month = 'DEC';
+
+            let str = JSON.stringify(dates[i]).substring(1).slice(8,10);
+            str += ' ' + month + ' ';
+            str += JSON.stringify(dates[i]).substring(1).slice(0,4);
             arr[i] = ({ ...arr[i],
                 "_id": i,
                 "date": dates[i],
+                "dateFormat": str,
                 "timeInMarketYears": datesOfMarketYear[i],
-                "strikePrices": strikePrices,
-                "callPrices": arrCallOptionPrices[i],
-                "callDeltas": callDeltas[i],
-                "putPrices": arrPutOptionPrices[i],
-                "putDeltas": putDeltas[i]
+                //"prices": sub[i]
             });
         }
-        console.log(arr);
         setTableData(arr);
     }
 
     useEffect(() => {
         calculateOptionPrices();
-    }, [props.dates]);
+    }, [props]);
 
     useEffect(() => {
         return function cleanup() { };
     }, []);
     
     const columns = [{
-        Header: 'Strike prices',
-        accessor: 'strikePrices'
-    }, {
-        Header: 'Call Prices',
-        accessor: 'callPrices'
-    }, {
-        Header: 'Call Deltas',
-        accessor: 'callDeltas'
-    }, {
-        Header: 'Put Prices',
-        accessor: 'putPrices'
-    }, {
-        Header: 'Put deltas',
-        accessor: 'putDeltas'
+        accessor: 'dateFormat',
+        style: { 'fontWeight': 'bold' }
     }];
 
-    return <TableElement columns={columns} data={tableData} />
+    const subColumns = [{
+        Header: 'Calls',
+        columns: [{
+                Header: 'Price',
+                accessor: 'callPrice',
+                width: 100,
+                style: { 'whiteSpace': 'unset', 'textAlign': 'center' },
+                Cell: (row: any) => {
+                    let c = Math.round(((parseFloat(row.original.callPrice)) + Number.EPSILON) * 10000) / 10000;
+                    return <span>{c}</span>
+                }
+            }, {
+                Header: () => <span>&#916;</span>,
+                accessor: 'callDelta',
+                width: 100,
+                style: { 'whiteSpace': 'unset', 'textAlign': 'center' },
+                Cell: (row: any) => {
+                    let cd = Math.round(((parseFloat(row.original.callDelta)) + Number.EPSILON) * 10000) / 10000;
+                    return <span>{cd}</span>
+                }
+        }]}, {
+        Header: 'Strikes',
+        columns: [{
+                accessor: 'strikePrice',
+                style: { 'whiteSpace': 'unset', 'textAlign': 'center', 'fontWeight': 'bold' }
+        }]}, {
+        Header: 'Puts',
+        columns: [{
+                Header: 'Price',
+                accessor: 'putPrice',
+                width: 100,
+                style: { 'whiteSpace': 'unset', 'textAlign': 'center' },
+                Cell: (row: any) => {
+                    let p = Math.round(((parseFloat(row.original.putPrice)) + Number.EPSILON) * 10000) / 10000;
+                    return <span>{p}</span>
+                }
+            }, {
+                Header: () => <span>&#916;</span>,
+                accessor: 'putDelta',
+                width: 100,
+                style: { 'whiteSpace': 'unset', 'textAlign': 'center' },
+                Cell: (row: any) => {
+                    let pd = Math.round(((parseFloat(row.original.putDelta)) + Number.EPSILON) * 10000) / 10000;
+                    return <span>{pd}</span>
+                }
+        }]
+    }];
+
+    return <CallPutTable columns={columns} subColumns={subColumns} data={tableData} subData={subTableData} />
 }

@@ -1,3 +1,4 @@
 import CallPutPrices from "./CallPutPrices";
+import CallPutTable from "./CallPutTable";
 
-export { CallPutPrices }
+export { CallPutPrices, CallPutTable }

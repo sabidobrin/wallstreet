@@ -157,20 +157,20 @@ export default function BlackScholesModel (props: any) {
                     <Row><div style={{ paddingBottom: '0.5pc' }}><b>Calculator</b></div></Row>
                     <Col xs={12} sm={12} md={8} lg={8}>
                         <Row>
-                        <Col id="triple" xs={12} sm={12} md={8} lg={8}>
+                        <Col id="triple" xs={12} sm={12} md={12} lg={12}>
                         <Form.Group className="mb-3" controlId="black-scholes-L">
                             <Form.Label>Ticker</Form.Label>
                             <Form.Control type="text" placeholder="Ticker"
                                 onBlur={(e:any) => tickerCheck(e.target.value)} />
                         </Form.Group>
                         </Col>
-                        <Col id="triple" xs={12} sm={12} md={4} lg={4}>
+                        {/*<Col id="triple" xs={12} sm={12} md={4} lg={4}>
                         <Form.Group className="mb-3" controlId="black-scholes-L">
                             <Form.Label>Flag</Form.Label>
                             <Form.Control type="text" placeholder="C/P"
                                 onBlur={(e:any) => flagCheck(e.target.value.toLowerCase())} />
                         </Form.Group>   
-                        </Col>
+                        </Col>*/}
                         </Row>
                         <Row>
                         <Col id="triple" xs={12} sm={12} md={6} lg={6}>
